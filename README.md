@@ -1,4 +1,4 @@
-a# camel-odata
+camel-odata
 Camel (CEQ) demo project for showing an example of OData and REST API service integration
 
 ## Prerequisites
@@ -16,15 +16,20 @@ The following instructions can deploy the Camel integration on OpenShift or stan
 Clone this repository in your local development environment.  
 
 ### Local environment
-  on the root folder type:
-  mvn quarkus dev
+Run this command on the repo root directory:
+
+     • mvn quarkus dev
 
 ### OpenShift 
-JAVA_HOME=/usr/lib/jvm/jdk-17/ mvn clean package -D skipTests -Popenshift -Dquarkus.kubernetes.deploy=true -Dquarkus.kubernetes-client.trust-certs=true -Dquarkus.openshift.route.expose=true
+Run this command on the repo root directory:
+
+     • mvn clean package -D skipTests -Popenshift -Dquarkus.kubernetes.deploy=true -Dquarkus.kubernetes-client.trust-certs=true -Dquarkus.openshift.route.expose=true
+
 
 ## Run a YAML DSL with JBang (out of demo scope) 
-address to this directory: /src/main/resources/camel and run:
-jbang -Dcamel.jbang.version=3.20.3 camel@apache/camel run *  
+Go to this directory: /src/main/resources/camel and run:
+
+     • jbang -Dcamel.jbang.version=3.20.3 camel@apache/camel run *  
 
 ## DEMO DIAGRAMS
 ![](docs/demodiagram1.png)
