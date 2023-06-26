@@ -4,6 +4,7 @@ Camel (CEQ) demo project for showing an example of OData and REST API service in
 ## Prerequisites
 
 The following instructions can deploy the Camel integration on OpenShift or standalone in a VM or bare metal infrastructure. The demo requires these components:   
+
      • OpenShift Container Platform (optional)
      • JDK 1.17
      • Maven 3.6.3 or higher
