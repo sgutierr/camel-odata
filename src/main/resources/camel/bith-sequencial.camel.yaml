@@ -1,0 +1,84 @@
+- restConfiguration:
+    component: netty-http
+    scheme: http
+    host: localhost
+    port: '8081'
+    contextPath: /camel
+- rest:
+    id: myrest
+    get:
+      - id: get-dadd
+        path: /birthregistration/user
+        consumes: application/json
+        produces: application/json
+        to: direct:GetUser
+- route:
+    id: route-41ea
+    from:
+      uri: direct:GetUser
+      id: from-7317
+      description: GetUser
+      steps:
+        - to:
+            uri: direct:direct:GetUserInfoREST
+            id: to-0126
+            description: REST
+        - to:
+            uri: direct:direct:callOdataservice
+            id: to-d118
+            description: OData
+        - to:
+            uri: log:olingolog
+            id: to-7d8d
+            parameters:
+              showBody: true
+              showBodyType: true
+- route:
+    id: direct:GetUserInfoREST
+    from:
+      uri: direct:direct:GetUserInfoREST
+      id: from-a0ae
+      description: REST
+      steps:
+        - to:
+            uri: >-
+              netty-http:http://microcks.apps.ocp4.quitala.eu:80/rest/rsa-mock+API/1.0.0/license/people?username=russellwhyte
+            id: to-25f7
+        - unmarshal:
+            id: unmarshal-2c3d
+            json:
+              id: json-2f9f
+              library: Jackson
+              autoDiscoverObjectMapper: true
+        - setBody:
+            id: setBody-5815
+            expression:
+              simple:
+                expression: ${body[ppsn]}
+                id: simple-cb29
+- route:
+    id: direct:callOdataservice
+    from:
+      uri: direct:direct:callOdataservice
+      id: from-60cd
+      description: OData
+      steps:
+        - to:
+            uri: olingo4://read/People('russellwhyte')
+            id: to-6a4f
+            parameters:
+              serviceUri: http://services.odata.org/V4/TripPinService
+            description: http://services.odata.org/V4
+        - setBody:
+            id: setBody-a290
+            expression:
+              simple:
+                expression: ${body.properties[1]}
+                id: simple-ee30
+        - setHeader:
+            name: username
+            id: setHeader-0235
+            expression:
+              simple:
+                expression: url
+                id: simple-962c
