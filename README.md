@@ -15,8 +15,10 @@ The following instructions can deploy the Camel integration on OpenShift or stan
 ## Run the demo
 Clone this repository in your local development environment.  
 
-You can use Apicurio+Microcks to generate the mock endpoint, please find the Mock REST API spec, here:
-![](docs/rsa-mock-API.json)
+You can use Apicurio+Microcks to generate the REST mock endpoint, please find the Mock REST API spec, here:
+[Mock API](docs/rsa-mock-API.json)  .This is an example of this mock endpoint with Microcks: http://microcks.apps.ocp4.quitala.eu/rest/rsa-mock+API/1.0.0/license/people?username=russellwhyte
+
+This is the mock OData API : https://services.odata.org/V4/TripPinService/People('russellwhyte')
 
 ### Local environment
 Run this command on the repo root directory:
