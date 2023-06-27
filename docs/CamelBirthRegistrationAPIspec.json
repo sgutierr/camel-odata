@@ -1,0 +1,116 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Birth Registration demo",
+        "version": "1.0.0",
+        "description": "Birth Registration API ",
+        "contact": {
+            "name": "Sergio",
+            "email": "sgutierr@redhat.com"
+        },
+        "license": {
+            "name": "GNU GPLv3",
+            "url": "https://www.gnu.org/licenses/gpl.txt"
+        }
+    },
+    "paths": {
+        "/birthregistration/user": {
+            "get": {
+                "parameters": [
+                    {
+                        "examples": {
+                            "russellwhyte": {
+                                "value": "\"russellwhyte\""
+                            }
+                        },
+                        "name": "username",
+                        "description": "username",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/birthregistrationuser"
+                                },
+                                "examples": {
+                                    "russellwhyte": {
+                                        "value": {
+                                            "ppsn": "some text",
+                                            "surName": "some text",
+                                            "firstName": "some text",
+                                            "placeOfBirth": "some text",
+                                            "dateOfIssue": "some text",
+                                            "dateOfExpiry": "some text",
+                                            "licenceNumber": "some text",
+                                            "gender": "some text",
+                                            "concurrency": 33
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "get user"
+                    }
+                },
+                "operationId": "operation1"
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "birthregistrationuser": {
+                "title": "Root Type for birthregistration",
+                "description": "birthregistration",
+                "type": "object",
+                "properties": {
+                    "ppsn": {
+                        "type": "string"
+                    },
+                    "surName": {
+                        "type": "string"
+                    },
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "placeOfBirth": {
+                        "type": "string"
+                    },
+                    "dateOfIssue": {
+                        "type": "string"
+                    },
+                    "dateOfExpiry": {
+                        "type": "string"
+                    },
+                    "licenceNumber": {
+                        "type": "string"
+                    },
+                    "gender": {
+                        "type": "string"
+                    },
+                    "concurrency": {
+                        "format": "int32",
+                        "type": "integer"
+                    }
+                },
+                "example": {
+                    "ppsn": "123456",
+                    "surName": "whyte",
+                    "firstName": "russell",
+                    "placeOfBirth": "dublin",
+                    "dateOfIssue": "01/01/2020",
+                    "dateOfExpiry": "01/01/2024",
+                    "licenceNumber": "1234567",
+                    "gender": "Male",
+                    "concurrency": 638229442854020200
+                }
+            }
+        }
+    }
+}

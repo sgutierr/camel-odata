@@ -15,16 +15,19 @@ The following instructions can deploy the Camel integration on OpenShift or stan
 ## Run the demo
 Clone this repository in your local development environment.  
 
+You can use Apicurio+Microcks to generate the mock endpoint, please find the Mock REST API spec, here:
+![](docs/rsa-mock-API.json)
+
 ### Local environment
 Run this command on the repo root directory:
 
      • mvn quarkus dev
 
      http://localhost:8182/birthregistration/user?username=russellwhyte
-     
+
 
 ### OpenShift 
-Run this command on the repo root directory:
+First you need to sign in OpenShift and run this command on the repo root directory:
 
      • mvn clean package -D skipTests -Popenshift -Dquarkus.kubernetes.deploy=true -Dquarkus.kubernetes-client.trust-certs=true -Dquarkus.openshift.route.expose=true
 

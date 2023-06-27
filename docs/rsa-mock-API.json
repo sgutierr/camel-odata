@@ -1,0 +1,154 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "rsa-mock API",
+        "version": "1.0.0",
+        "license": {
+            "name": "GNU AGPLv3",
+            "url": "https://www.gnu.org/licenses/agpl.txt"
+        }
+    },
+    "paths": {
+        "/licence/{ppsn}": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/License"
+                                },
+                                "examples": {
+                                    "russellwhyte example": {
+                                        "value": {
+                                            "ppsn": "123456B",
+                                            "surName": "whyte",
+                                            "firstName": "russell",
+                                            "placeOfBirth": "Dublin",
+                                            "dateOfIssue": "1/1/20",
+                                            "dateOfExpiry": "1/1/25",
+                                            "licenceNumber": "1234567"
+                                        }
+                                    },
+                                    "test": {
+                                        "value": {
+                                            "ppsn": "some text",
+                                            "surName": "some text",
+                                            "firstName": "some text",
+                                            "placeOfBirth": "some text",
+                                            "dateOfIssue": "some text",
+                                            "dateOfExpiry": "some text",
+                                            "licenceNumber": "some text"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "operationId": "getLicenseByPpsn",
+                "summary": "Retrieve license information by PPSN"
+            },
+            "parameters": [
+                {
+                    "examples": {
+                        "russellwhyte ppsn": {
+                            "value": "123456B"
+                        }
+                    },
+                    "name": "ppsn",
+                    "description": "personID",
+                    "schema": {
+                        "type": "string"
+                    },
+                    "in": "path",
+                    "required": true
+                }
+            ]
+        },
+        "/license/people": {
+            "get": {
+                "parameters": [
+                    {
+                        "examples": {
+                            "russellwhyte": {
+                                "value": "russellwhyte"
+                            }
+                        },
+                        "name": "username",
+                        "description": "username",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/License"
+                                },
+                                "examples": {
+                                    "russellwhyte": {
+                                        "value": {
+                                            "ppsn": "123456",
+                                            "surName": "whyte",
+                                            "firstName": "russell",
+                                            "placeOfBirth": "dublin",
+                                            "dateOfIssue": "01/01/2020",
+                                            "dateOfExpiry": "01/01/2024",
+                                            "licenceNumber": "1234567"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "test"
+                    }
+                },
+                "operationId": "de"
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "License": {
+                "type": "object",
+                "properties": {
+                    "ppsn": {
+                        "type": "string",
+                        "example": "123456B"
+                    },
+                    "surName": {
+                        "type": "string",
+                        "example": "doe"
+                    },
+                    "firstName": {
+                        "type": "string",
+                        "example": "john"
+                    },
+                    "placeOfBirth": {
+                        "type": "string",
+                        "example": "Dublin"
+                    },
+                    "dateOfIssue": {
+                        "type": "string",
+                        "example": "1/1/20"
+                    },
+                    "dateOfExpiry": {
+                        "type": "string",
+                        "example": "1/1/30"
+                    },
+                    "licenceNumber": {
+                        "type": "string",
+                        "example": "1234567"
+                    }
+                }
+            }
+        }
+    }
+}
