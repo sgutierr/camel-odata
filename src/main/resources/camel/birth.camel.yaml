@@ -1,9 +1,3 @@
-- restConfiguration:
-    component: netty-http
-    scheme: http
-    host: localhost
-    port: '8080'
-    contextPath: /camel
 - rest:
     id: myrest
     get:
@@ -81,4 +75,10 @@
             id: to-6a4f
             parameters:
               serviceUri: http://services.odata.org/V4/TripPinService
-            description: http://services.odata.org/V4
+            description: http://services.odata.org/V4/TripPinService
+- restConfiguration:
+    component: servlet
+    scheme: http
+    host: 0.0.0.0
+    port: '8080'
+    contextPath: /

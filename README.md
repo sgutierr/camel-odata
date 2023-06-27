@@ -20,6 +20,9 @@ Run this command on the repo root directory:
 
      • mvn quarkus dev
 
+     http://localhost:8182/birthregistration/user?username=russellwhyte
+     
+
 ### OpenShift 
 Run this command on the repo root directory:
 

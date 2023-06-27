@@ -12,6 +12,13 @@
         consumes: application/json
         produces: application/json
         to: direct:GetUser
+      - id: get-6320
+        param:
+          - {}
+        to: direct:GetLicenseDriver
+        consumes: application/json
+        produces: application/json
+        path: /birthregistration/license
 - route:
     id: route-41ea
     from:
@@ -23,10 +30,6 @@
             uri: direct:direct:GetUserInfoREST
             id: to-0126
             description: REST
-        - to:
-            uri: direct:direct:callOdataservice
-            id: to-d118
-            description: OData
         - to:
             uri: log:olingolog
             id: to-7d8d
@@ -57,28 +60,16 @@
                 expression: ${body[ppsn]}
                 id: simple-cb29
 - route:
-    id: direct:callOdataservice
+    id: GetLicenseDriver
     from:
-      uri: direct:direct:callOdataservice
-      id: from-60cd
-      description: OData
+      uri: direct:GetLicenseDriver
+      id: from-eda8
       steps:
         - to:
-            uri: olingo4://read/People('russellwhyte')
-            id: to-6a4f
-            parameters:
-              serviceUri: http://services.odata.org/V4/TripPinService
-            description: http://services.odata.org/V4
-        - setBody:
-            id: setBody-a290
-            expression:
-              simple:
-                expression: ${body.properties[1]}
-                id: simple-ee30
-        - setHeader:
-            name: username
-            id: setHeader-0235
-            expression:
-              simple:
-                expression: url
-                id: simple-962c
+            uri: >-
+              netty-http:http://microcks.apps.ocp4.quitala.eu:/rest/rsa-mock+API/1.0.0/license/people?username=russellwhyte
+            id: to-5aa5
+        - log:
+            message: ${body}
+            id: log-a79b
+            loggingLevel: INFO
