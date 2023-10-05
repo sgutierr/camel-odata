@@ -1,0 +1,6 @@
+   apiVersion: v1
+   kind: ConfigMap
+   metadata:
+     name: mock-responses
+   data:
+     openshift.get.message.response1: '{ "ppsn": "1234567", "surName": "Whyte", "firstName": "Rusell", "placeOfBirth": "11-09-1980", "dateOfIssue": "12-10-2000", "dateOfExpiry": "12-10-2035", "licenceNumber": "123456" }'

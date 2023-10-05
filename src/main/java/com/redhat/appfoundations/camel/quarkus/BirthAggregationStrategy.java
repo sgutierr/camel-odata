@@ -6,6 +6,7 @@ import org.apache.olingo.client.core.domain.ClientEntityImpl;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
+import javax.validation.constraints.Null;
 
 @Singleton
 @Named("BirthAggregationStrategy")
@@ -21,10 +22,12 @@ public class BirthAggregationStrategy implements AggregationStrategy {
             Person citizien = oldExchange.getIn().getBody(Person.class);
             ClientEntityImpl entity = newExchange.getIn().getBody(ClientEntityImpl.class); 
             // Gender and Concurrency attributes hardcoded --> DEMO
+            if (entity != null)  {
             String gender = entity.getProperty("Gender").getValue().toString();
             String concurrency= entity.getProperty("Concurrency").getValue().toString();
             citizien.setGender(gender);
             citizien.setConcurrency(concurrency);            
+            }
             oldExchange.getIn().setBody(citizien); 
         }
         if (oldExchange.getIn().getBody().getClass().equals(ClientEntityImpl.class)){

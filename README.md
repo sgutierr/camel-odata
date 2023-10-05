@@ -1,5 +1,6 @@
-camel-odata
+# camel-odata demo
 Camel (CEQ) demo project for showing an example of OData and REST API service integration
+![](docs/orchestration_diagram.png)
 
 ## Prerequisites
 
@@ -15,7 +16,17 @@ The following instructions can deploy the Camel integration on OpenShift or stan
 ## Run the demo
 Clone this repository in your local development environment.  
 
-You can use Apicurio+Microcks to generate the REST mock endpoint, please find the Mock REST API spec, here:
+You need to create a mock REST endpoint, in order to create it you have two options:
+1. You can use this project to build a mock endpoint in OpenShift with this ConfigMap with this reponse:
+   ```
+   apiVersion: v1
+   kind: ConfigMap
+   metadata:
+     name: mock-responses
+   data:
+     openshift.get.message.response1: '{ "ppsn": "1234567", "surName": "Whyte", "firstName": "Rusell", "placeOfBirth": "11-09-1980", "dateOfIssue": "12-10-2000", "dateOfExpiry": "12-10-2035", "licenceNumber": "123456" }'
+   ``` 
+2. Use Apicurio+Microcks to generate the REST mock endpoint, please find the Mock REST API spec, here:
 [Mock API](docs/rsa-mock-API.json)  .This is an example of this mock endpoint with Microcks: http://microcks.apps.ocp4.quitala.eu/rest/rsa-mock+API/1.0.0/license/people?username=russellwhyte
 
 This is the mock OData API : https://services.odata.org/V4/TripPinService/People('russellwhyte')

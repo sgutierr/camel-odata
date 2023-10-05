@@ -1,84 +1,102 @@
-- rest:
-    id: myrest
-    get:
-      - id: get-dadd
-        param:
-          - name: username
-            type: query
-        path: /birthregistration/user
-        consumes: application/json
-        produces: application/json
-        to: direct:GetUser
-- route:
-    id: route-41ea
-    from:
-      uri: direct:GetUser
-      id: from-7317
-      description: /getuser
-      steps:
-        - multicast:
-            id: multicast-74d1
-            aggregationStrategy: BirthAggregationStrategy
-            parallelProcessing: true
-            description: Parallel process
-            steps:
-              - to:
-                  uri: direct:direct:GetUserInfoREST
-                  id: to-0126
-                  description: REST
-              - to:
-                  uri: direct:direct:callOdataservice
-                  id: to-d118
-                  description: OData
-        - to:
-            uri: log:olingolog
-            id: to-7d8d
-            parameters:
-              showBody: true
-              showBodyType: true
-            description: Agregator
-        - marshal:
-            id: marshal-fe9c
-            json:
-              id: json-9ea9
-              library: Jackson
-              allowUnmarshallType: true
-              unmarshalType: com.redhat.appfoundations.camel.quarkus.Person
-    description: OData+REST
-- route:
-    id: direct:GetUserInfoREST
-    from:
-      uri: direct:direct:GetUserInfoREST
-      id: from-a0ae
-      description: REST
-      steps:
-        - to:
-            uri: >-
-              netty-http:http://microcks.apps.ocp4.quitala.eu:80/rest/rsa-mock+API/1.0.0/license/people?username=russellwhyte
-            id: to-25f7
-        - unmarshal:
-            id: unmarshal-92d7
-            json:
-              id: json-071f
-              library: Jackson
-              allowUnmarshallType: true
-              unmarshalType: com.redhat.appfoundations.camel.quarkus.Person
-- route:
-    id: direct:callOdataservice
-    from:
-      uri: direct:direct:callOdataservice
-      id: from-60cd
-      description: OData
-      steps:
-        - toD:
-            uri: olingo4://read/People('${header.username}')
-            id: to-6a4f
-            parameters:
-              serviceUri: http://services.odata.org/V4/TripPinService
-            description: http://services.odata.org/V4/TripPinService
 - restConfiguration:
     component: servlet
     scheme: http
     host: 0.0.0.0
     port: '8080'
     contextPath: /
+- rest:
+    id: myrest
+    get:
+      - path: /birthregistration/user
+        to: direct:GetUser
+        consumes: application/json
+        produces: application/json
+        id: get-dadd
+- route:
+    id: route-41ea
+    description: OData+REST
+    from:
+      uri: direct
+      id: from-7317
+      description: /getuser
+      parameters:
+        name: GetUser
+      steps:
+        - multicast:
+            aggregationStrategy: BirthAggregationStrategy
+            parallelProcessing: true
+            id: multicast-74d1
+            description: Parallel process
+            steps:
+              - to:
+                  uri: direct
+                  id: to-0126
+                  description: REST
+                  parameters:
+                    name: direct:GetUserInfoREST
+              - to:
+                  uri: direct
+                  id: to-d118
+                  description: OData
+                  parameters:
+                    name: direct:callOdataservice
+        - to:
+            uri: log
+            id: to-7d8d
+            description: Agregator
+            parameters:
+              showBody: true
+              showBodyType: true
+              loggerName: olingolog
+        - marshal:
+            id: marshal-fe9c
+            json:
+              library: Jackson
+              unmarshalType: com.redhat.appfoundations.camel.quarkus.Person
+              allowUnmarshallType: true
+              id: json-9ea9
+- route:
+    id: direct:GetUserInfoREST
+    from:
+      uri: direct
+      id: from-a0ae
+      description: REST
+      parameters:
+        name: direct:GetUserInfoREST
+      steps:
+        - to:
+            uri: netty-http
+            id: to-25f7
+            parameters:
+              protocol: http
+              host: mocktoken-appdev-integration.apps.ocp4.quitala.eu
+              port: '80'
+              path: /mock/rusell
+        - unmarshal:
+            id: unmarshal-92d7
+            json:
+              library: Jackson
+              unmarshalType: com.redhat.appfoundations.camel.quarkus.Person
+              allowUnmarshallType: true
+              id: json-071f
+- route:
+    id: direct:callOdataservice
+    from:
+      uri: direct
+      id: from-60cd
+      description: OData
+      parameters:
+        name: direct:callOdataservice
+      steps:
+        - toD:
+            uri: olingo4://read/People('${header.username}')
+            pattern: InOnly
+            ignoreInvalidEndpoint: true
+            id: to-6a4f
+            description: https://services.odata.org/V4/TripPinService
+            parameters:
+              serviceUri: http://services.odata.org/V4/TripPinService
+              methodName: /read/People('${header.username}')
+        - log:
+            message: ${body}
+            id: log-6c67
